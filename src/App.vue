@@ -9,8 +9,6 @@
       <aside>
         <nav id="nav">
           <router-link to="/burgers">Burgers</router-link>
-          <router-link to="/soups">Soups</router-link>
-          <router-link to="/desserts">Desserts</router-link>
         </nav>
       </aside>
     </article>

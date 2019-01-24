@@ -43,7 +43,6 @@
     },
     created(){
       this.$axios.get('burgers.php').then((response) => {
-        console.log(response);
         this.burgers = response.data;
       })
     },
@@ -52,7 +51,7 @@
         food.type = 'burger'
         // alert(id);
         this.$axios.post('place-order.php', food).then((response) => {
-          console.log(response);
+          console.log('place order response', response);
           this.message = `We are cooking your ${food.type} and it will be done in ${food.cooking_minutes} minutes`
         })
       }

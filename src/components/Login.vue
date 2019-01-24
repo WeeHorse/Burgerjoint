@@ -1,8 +1,8 @@
 <template>
-  <article id="article">
+  <article>
     <nav id="top">
       <div v-if="user.firstname">
-        <a v-on:click="logout" :disabled="loading">Logout {{user.firstname}}</a>
+        <a v-on:click="logout" :disabled="loading">Logout</a>
       </div>
       <div v-else>
         <a v-on:click="showLogin" :disabled="loading">Login</a>
@@ -10,16 +10,23 @@
       </div>
     </nav>
     <div v-if="!user.firstname && showingLogin" class="card-body">
-      <form @submit.prevent="submit">
+      <form @submit.prevent="submit" class="layout">
         <label>Email
-          <input type="text" v-model="email" :disabled="loading" />
+          <input type="email" v-model="email" :disabled="loading"  required/>
         </label>
         <label>Password
-          <input type="password" v-model="password" :disabled="loading" />
+          <input type="password" v-model="password" :disabled="loading"  required/>
         </label>
-        <button type="cancel" v-on:click="cancelLogin">Cancel</button>
-        <button type="submit" :disabled="loading">Login</button>
-        <span class="msg" v-if="message">{{message}}</span>
+        <div>
+          <div>
+            <span class="msg" v-if="message">{{message}}</span>
+          </div>
+          <div>
+            <button type="cancel" v-on:click="cancelLogin">Cancel</button>
+            <button type="submit" :disabled="loading">Login</button>
+          </div>
+        </div>
+
       </form>
     </div>
   </article>
@@ -40,7 +47,6 @@ export default{
   },
   created(){
     this.$axios.get('user.php').then(response => {
-      console.log('/user', response);
       this.user = response.data;
     }).catch(e => {
       // not logged in
@@ -61,7 +67,6 @@ export default{
         email: this.email,
         password: this.password,
       }).then(response => {
-        console.log('/login', response);
         this.loading = false;
         this.showingLogin = false;
         if(response.data.loggedIn) {
@@ -78,7 +83,6 @@ export default{
     logout() {
       this.loading = true;
       this.$axios.post('logout.php').then(response => {
-        console.log(response);
         this.loading = false;
         this.user = {};
       }).catch(error => {
@@ -106,20 +110,18 @@ export default{
   margin-right: 20px;
   font-family: "Kodchasan";
   color: #eee;
+  cursor: pointer;
 }
 .card-body{
   box-sizing: border-box;
-  background: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.9);
   border: 1px solid #eee;
   border-radius: 5px;
-  padding: 5px 10px;
-  /*position: absolute;
-  top: 5px;
-  left: 5px;
-  width:calc(100vw - 10px);*/
-}
-.card-body label{
-  margin-right:20px;
+  padding: 10px 15px;
+  max-width:300px;
+  position: absolute;
+  top: 50px;
+  left: 50px;
 }
 .card-body .msg{
   margin-left:10px;
@@ -127,5 +129,15 @@ export default{
 .card-body .welcome{
   margin-right:10px;
   font-weight:bold;
+}
+.layout{
+  display:flex;
+  flex-direction: column;
+}
+.layout>*{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom:5px;
 }
 </style>
