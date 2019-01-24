@@ -1,5 +1,5 @@
 <template>
-  <article class="article">
+  <article id="article">
     <nav id="top">
       <div v-if="user.firstname">
         <a v-on:click="logout" :disabled="loading">Logout {{user.firstname}}</a>
