@@ -1,6 +1,6 @@
 <template>
   <article>
-    <nav id="top">
+    <nav id="top" class="auth">
       <div v-if="user.firstname">
         <a v-on:click="logout" :disabled="loading">Logout {{user.firstname}}</a>
       </div>
